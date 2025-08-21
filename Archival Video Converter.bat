@@ -155,17 +155,17 @@ for /f "delims=" %%A in ('ffprobe -v quiet -show_entries stream^=codec_type -of 
 
 rem Check for audio
 if !has_audio! equ 0 (
-	echo Skip !filePathNameExtension!
+	echo Skip, not a video file
 	exit /b 0
 )
 
 rem Check for images
 for /f "delims=0123456789" %%A in ("!has_video!") do (
-	echo Skip !filePathNameExtension!
+	echo Skip, not a video file
 	exit /b 0
 )
 if !has_video! leq 1 (
-	echo Skip !filePathNameExtension!
+	echo Skip, not a video file
 	exit /b 0
 )
 
@@ -214,3 +214,4 @@ if "!userDeletion!"=="2" (
 )
 
 exit /b 0
+
