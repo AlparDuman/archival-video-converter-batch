@@ -71,7 +71,6 @@ echo [2] ^| any CPU    ^| x265  ^| x0.09 ^| best    ^| x0.79 ^| most
 echo [3] ^| Nvidia GPU ^| h264  ^| x8.5  ^| good    ^| x3.25 ^| best
 echo [4] ^| Nvidia GPU ^| h265  ^| x9    ^| good    ^| x1.5  ^| most
 set /p userCodec=Select number: 
-echo.
 
 if not "!userCodec!"=="1" (
 	if not "!userCodec!"=="2" (
@@ -109,6 +108,7 @@ exit /b 0
 
 
 :process_file
+echo.
 
 rem Escape file name, path & extension
 set "filePathNameExtension=%~dpnx1"
@@ -155,14 +155,17 @@ for /f "delims=" %%A in ('ffprobe -v quiet -show_entries stream^=codec_type -of 
 
 rem Check for audio
 if !has_audio! equ 0 (
+	echo Skip !filePathNameExtension!
 	exit /b 0
 )
 
 rem Check for images
 for /f "delims=0123456789" %%A in ("!has_video!") do (
+	echo Skip !filePathNameExtension!
 	exit /b 0
 )
 if !has_video! leq 1 (
+	echo Skip !filePathNameExtension!
 	exit /b 0
 )
 
@@ -210,5 +213,4 @@ if "!userDeletion!"=="2" (
 	)
 )
 
-echo.
 exit /b 0
