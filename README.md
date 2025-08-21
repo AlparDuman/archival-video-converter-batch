@@ -27,7 +27,7 @@ Drag and drop video files or folders containing video files onto this batch file
 Next, you will be asked to specify whether the script should delete the original video file after successful conversion and which codec should be used for the video. You can select the option that suits your requirements. x264 is recommended for best compatibility with old and new devices and possible licensing requirements with x265 alias hevc.
 
 > [!NOTE]
-> Windows will warn you about running this batch file because it comes from a source that is not trusted or verified. This is a good security check. If you don't trust my batch file, open it with a text editor and you can read the entire code. If you want to remove the notification, you must create a new file and copy the contents of my batch file into yours. This way, the file is created by you and Windows is happy again. However, only do this if you trust the code!
+> Windows will warn you about running this batch file because it comes from a source that is not trusted or verified. This is a good security check. If you don't trust my batch file, open it with a text editor and you can read the entire code. If you want to remove the notification, you must create a new file and copy the contents of my batch file into yours. This way, the file is created by you and Windows is happy once again. However, only do this if you trust the code!
 
 ## Final remarks
 
