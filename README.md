@@ -2,6 +2,9 @@
 
 A simple windows batch file to convert videos for archiving using drag & drop using [FFmpeg](https://www.ffmpeg.org/).
 
+> [!WARNING]
+> Output video files only contain video streams and audio streams from the original video file. Subtitles, chapters and all other metadata are therefore not copied!
+
 | Table of Contents |
 | - |
 | [Dependency](#dependency) |
