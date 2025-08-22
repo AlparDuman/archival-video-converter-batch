@@ -5,54 +5,54 @@ setlocal enabledelayedexpansion
 
 
 
-Rem ==========[ Config ]==========
+rem ==========[ Config ]==========
 
-Rem Override userDelete variable and skip input
-Rem "userDeletion=" Ask for user input
-Rem "userDeletion=2" Skip user input and pretend user input us 2
+rem Override userDelete variable and skip input
+rem "userDeletion=" Ask for user input
+rem "userDeletion=2" Skip user input and pretend user input us 2
 set "userDeletion="
 
-Rem Override userCodec variable and skip input
-Rem "userCodec=" Ask for user input
-Rem "userCodec=4" Skip user input and pretend user input us 4
+rem Override userCodec variable and skip input
+rem "userCodec=" Ask for user input
+rem "userCodec=4" Skip user input and pretend user input us 4
 set "userCodec="
 
-Rem =======[ Config Check ]=======
+rem =======[ Config Check ]=======
 
-echo "   1 2 " | find " !userDeletion! " >nul
+echo "  1 2 " | find " !userDeletion! " >nul
 if errorlevel 1 (
     echo Invalid preset for userDeletion!
 	timeout /t 999
 	exit 1
 )
 
-echo "   1 2 3 4 5 6 7 8 9 " | find " !userCodec! " >nul
+echo "  1 2 3 4 5 6 7 8 9 " | find " !userCodec! " >nul
 if errorlevel 1 (
     echo Invalid preset for userCodec!
 	timeout /t 999
 	exit 1
 )
 
-Rem ========[ Config End ]========
+rem ========[ Config End ]========
 
 
 
-Rem	Copyright (C) 2025 Alpar Duman
-Rem	This file is part of archival-video-converter-batch.
-Rem	
-Rem	archival-video-converter-batch is free software: you can redistribute it and/or modify
-Rem	it under the terms of the GNU General Public License version 3 as
-Rem	published by the Free Software Foundation.
-Rem	
-Rem	archival-video-converter-batch is distributed in the hope that it will be useful,
-Rem	but WITHOUT ANY WARRANTY; without even the implied warranty of
-Rem	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-Rem	GNU General Public License for more details.
-Rem	
-Rem	You should have received a copy of the GNU General Public License
-Rem	along with archival-video-converter-batch. If not, see
-Rem	<https://github.com/AlparDuman/archival-video-converter-batch/blob/main/LICENSE>
-Rem	else <https://www.gnu.org/licenses/>.
+rem	Copyright (C) 2025 Alpar Duman
+rem	This file is part of archival-video-converter-batch.
+rem	
+rem	archival-video-converter-batch is free software: you can redistribute it and/or modify
+rem	it under the terms of the GNU General Public License version 3 as
+rem	published by the Free Software Foundation.
+rem	
+rem	archival-video-converter-batch is distributed in the hope that it will be useful,
+rem	but WITHOUT ANY WARRANTY; without even the implied warranty of
+rem	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+rem	GNU General Public License for more details.
+rem	
+rem	You should have received a copy of the GNU General Public License
+rem	along with archival-video-converter-batch. If not, see
+rem	<https://github.com/AlparDuman/archival-video-converter-batch/blob/main/LICENSE>
+rem	else <https://www.gnu.org/licenses/>.
 
 :init
 echo     _             _     _            _  __     ___     _               ____                          _            
