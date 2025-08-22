@@ -80,17 +80,23 @@ where ffprobe >nul 2>&1 || (
 	exit /b 1
 )
 
+
+
+rem hint for internal config
+echo ^| To skip user input, edit internal config.
+echo ^|
+
 rem Ask user what to do with original video file after successful convertion
-echo What to do with original video file after successful convertion:
-echo [1] Keep original video file
-echo [2] Delete original video file
+echo ^| What to do with original video file after successful convertion:
+echo ^| [1] Keep original video file
+echo ^| [2] Delete original video file
 
 if "!userDeletion!"=="" (
-	set /p userDeletion=Select number: 
+	set /p userDeletion=^| Select number: 
 ) else (
-	echo Select number: !userDeletion! ^(from config^)
+	echo ^| Select number: !userDeletion! ^(from config^)
 )
-echo.
+echo ^|
 
 echo " 1 2 " | find " !userDeletion! " >nul
 if errorlevel 1 (
@@ -99,23 +105,23 @@ if errorlevel 1 (
 )
 
 rem Ask user video codec
-echo Which video codec is prefered and supported:
-echo     ^| Device     ^| Codec  ^| Speed  ^| Quality ^| Size   ^| Compatibility
-echo ----+------------+--------+--------+---------+--------+--------------
-echo [1] ^| CPU ^(any^)  ^| x264   ^| medium ^| best    ^| medium ^| best
-echo [2] ^| CPU ^(any^)  ^| x265   ^| slower ^| best    ^| small  ^| good
-echo [3] ^| CPU ^(any^)  ^| svtav1 ^| slow   ^| best    ^| small  ^| medium
-echo [4] ^| GPU Nvidia ^| h264   ^| fast   ^| better  ^| big    ^| better
-echo [5] ^| GPU Nvidia ^| h265   ^| fast   ^| better  ^| medium ^| good
-echo [6] ^| GPU Amd    ^| h264   ^| fast   ^| good    ^| big    ^| better
-echo [7] ^| GPU Amd    ^| h265   ^| fast   ^| good    ^| medium ^| good
-echo [8] ^| GPU Intel  ^| h264   ^| fast   ^| medium  ^| big    ^| better
-echo [9] ^| GPU Intel  ^| h265   ^| medium ^| medium  ^| medium ^| good
+echo ^| Which video codec is prefered and supported:
+echo ^|     ^| Device     ^| Codec  ^| Speed  ^| Quality ^| Size   ^| Compatibility
+echo ^| ----+------------+--------+--------+---------+--------+--------------
+echo ^| [1] ^| CPU ^(any^)  ^| x264   ^| medium ^| best    ^| medium ^| best
+echo ^| [2] ^| CPU ^(any^)  ^| x265   ^| slower ^| best    ^| small  ^| good
+echo ^| [3] ^| CPU ^(any^)  ^| svtav1 ^| slow   ^| best    ^| small  ^| medium
+echo ^| [4] ^| GPU Nvidia ^| h264   ^| fast   ^| better  ^| big    ^| better
+echo ^| [5] ^| GPU Nvidia ^| h265   ^| fast   ^| better  ^| medium ^| good
+echo ^| [6] ^| GPU Amd    ^| h264   ^| fast   ^| good    ^| big    ^| better
+echo ^| [7] ^| GPU Amd    ^| h265   ^| fast   ^| good    ^| medium ^| good
+echo ^| [8] ^| GPU Intel  ^| h264   ^| fast   ^| medium  ^| big    ^| better
+echo ^| [9] ^| GPU Intel  ^| h265   ^| medium ^| medium  ^| medium ^| good
 
 if "!userCodec!"=="" (
-	set /p userCodec=Select number: 
+	set /p userCodec=^| Select number: 
 ) else (
-	echo Select number: !userCodec! ^(from config^)
+	echo ^| Select number: !userCodec! ^(from config^)
 )
 
 echo " 1 2 3 4 5 6 7 8 9 " | find " !userCodec! " >nul
@@ -159,8 +165,8 @@ set "fileName=%~n1"
 
 rem Input & wip file path and name
 set "input=!filePathNameExtension!"
-set "wip=!filePathName!.!userCodec!_wip.mp4"
-set "archival=!fileName!.!userCodec!_archive.mp4"
+set "wip=!filePathName!.wip.mp4"
+set "archival=!fileName!.archive.mp4"
 
 rem Skip if output already exists
 if exist "!filePathName!.archive.mp4" (
