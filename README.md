@@ -10,11 +10,10 @@ A simple windows batch file to convert videos for archiving using drag & drop us
 | [Dependency](#dependency) |
 | [Installation](#installation) |
 | [Usage](#usage) |
-| [Final remarks](#final-remarks) |
 
 ## Dependency
 
-The folder containing the FFmpeg.exe and FFprobe.exe files must be included in the environment variables. These can be downloaded [here](https://www.ffmpeg.org/download.html). The file FFmpeg.exe must be compiled with aac, libx264, libx265, 264_nvenc and 265_nvenc.
+The folder containing the FFmpeg.exe and FFprobe.exe files must be included in the environment variables. These can be downloaded [here](https://www.ffmpeg.org/download.html). The file FFmpeg.exe must be compiled with aac, libx264, libx265, libsvtav1, 264_nvenc, 265_nvenc, h264_amf, hevc_amf, h264_qsv & hevc_qsv.
 
 ## Installation
 
@@ -29,6 +28,5 @@ Next, you will be asked to specify whether the script should delete the original
 > [!NOTE]
 > Windows will warn you about running this batch file because it comes from a source that is not trusted or verified. This is a good security check. If you don't trust my batch file, open it with a text editor and you can read the entire code. If you want to remove the notification, you must create a new file and copy the contents of my batch file into yours. This way, the file is created by you and Windows is happy once again. However, only do this if you trust the code!
 
-## Final remarks
-
-There are Av1 encoders for CPU and NVEnc, but either I can't test them or they run extremely slowly, making them impractical. Furthermore, I can't test encoders for AMD because I don't have an AMD GPU.
+> [!WARNING]
+> The encoder options for AMD hardware acceleration are untested, as I don't have an AMD GPU to test them on :)
