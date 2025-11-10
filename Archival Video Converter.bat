@@ -19,9 +19,21 @@ set "userCodec="
 
 rem =======[ Config Check ]=======
 
+if not "!userDeletion!"=="" if not "!userDeletion!"=="!userDeletion: =!" (
+	echo Invalid preset for userDeletion!
+	timeout /t 999
+	exit 1
+)
+
 echo "  1 2 " | find " !userDeletion! " >nul
 if errorlevel 1 (
     echo Invalid preset for userDeletion!
+	timeout /t 999
+	exit 1
+)
+
+if not "!userCodec!"=="" if not "!userCodec!"=="!userCodec: =!" (
+    echo Invalid preset for userCodec!
 	timeout /t 999
 	exit 1
 )
