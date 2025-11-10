@@ -13,7 +13,7 @@ A simple windows batch file to convert videos for archiving using drag & drop us
 
 ## Dependency
 
-The folder containing the FFmpeg.exe and FFprobe.exe files must be included in the environment variables. These can be downloaded [here](https://www.ffmpeg.org/download.html). The file FFmpeg.exe must be compiled with aac, libx264, libx265, libsvtav1, h264_nvenc, hevc_nvenc, h264_amf, hevc_amf, h264_qsv & hevc_qsv.
+The folder containing the FFmpeg.exe and FFprobe.exe files must be included in the environment variables. These can be downloaded [here](https://www.ffmpeg.org/download.html). The file FFmpeg.exe must be compiled with aac, libx264, libx265, h264_nvenc, hevc_nvenc, h264_amf, hevc_amf, h264_qsv & hevc_qsv.
 
 ## Installation
 
