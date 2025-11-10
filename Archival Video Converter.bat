@@ -26,7 +26,7 @@ if errorlevel 1 (
 	exit 1
 )
 
-echo "  1 2 3 4 5 6 7 8 9 " | find " !userCodec! " >nul
+echo "  1 2 3 4 5 6 7 8 " | find " !userCodec! " >nul
 if errorlevel 1 (
     echo Invalid preset for userCodec!
 	timeout /t 999
@@ -54,7 +54,7 @@ rem	along with archival-video-converter-batch. If not, see
 rem	<https://github.com/AlparDuman/archival-video-converter-batch/blob/main/LICENSE>
 rem	else <https://www.gnu.org/licenses/>.
 
-set "version=v1.1"
+set "version=v1.2"
 set "url=https://github.com/AlparDuman/archival-video-converter-batch"
 
 :init
@@ -86,50 +86,67 @@ where ffprobe >nul 2>&1 || (
 
 
 rem hint for internal config
-echo ^| To skip user input, edit internal config.
-echo ^| Only video and audio streams are encoded, other metadata is ignored.
-echo ^|
+echo ^+----------------------------------------------------------------------+
+echo ^| Only video and audio streams are encoded, other metadata is ignored. ^|
+echo ^| To skip user input, edit internal config.                            ^|
+echo ^+----------------------------------------------------------------------+
+echo.
 
 rem Ask user what to do with original video file after successful convertion
-echo ^| What to do with original video file after successful convertion:
-echo ^| [1] Keep
-echo ^| [2] Delete
+echo What to do with original video file after successful convertion:
+echo [1] Keep
+echo [2] Delete
 
 if "!userDeletion!"=="" (
-	set /p userDeletion=^| Select number: 
+	set /p userDeletion=Select number: 
 ) else (
-	echo ^| Select number: !userDeletion! ^(from config^)
+	echo Select number: !userDeletion!
 )
-echo ^|
+echo.
+
+if not "!userDeletion!"=="!userDeletion: =!" (
+	set "userDeletion="
+    cls
+    goto :init
+)
 
 echo " 1 2 " | find " !userDeletion! " >nul
 if errorlevel 1 (
+	set "userDeletion="
     cls
     goto :init
 )
 
 rem Ask user video codec
-echo ^| Select a supported video codec:
-echo ^|     ^| Device     ^| Codec  ^| Speed  ^| Quality ^| Size   ^| Compatibility
-echo ^| ----+------------+--------+--------+---------+--------+--------------
-echo ^| [1] ^| CPU ^(any^)  ^| x264   ^| medium ^| best    ^| medium ^| best
-echo ^| [2] ^| CPU ^(any^)  ^| x265   ^| slower ^| best    ^| small  ^| good
-echo ^| [3] ^| CPU ^(any^)  ^| svtav1 ^| slow   ^| best    ^| small  ^| medium
-echo ^| [4] ^| GPU Nvidia ^| h264   ^| fast   ^| better  ^| big    ^| better
-echo ^| [5] ^| GPU Nvidia ^| h265   ^| fast   ^| better  ^| medium ^| good
-echo ^| [6] ^| GPU Amd    ^| h264   ^| fast   ^| good    ^| big    ^| better
-echo ^| [7] ^| GPU Amd    ^| h265   ^| fast   ^| good    ^| medium ^| good
-echo ^| [8] ^| GPU Intel  ^| h264   ^| fast   ^| medium  ^| big    ^| better
-echo ^| [9] ^| GPU Intel  ^| h265   ^| medium ^| medium  ^| medium ^| good
+echo Choose a supported video codec:
+echo ^+-----+------------+-------+--------+---------+--------+---------------+
+echo ^|     ^| Device     ^| Codec ^| Speed  ^| Quality ^| Size   ^| Compatibility ^|
+echo ^+-----+------------+-------+--------+---------+--------+---------------+
+echo ^| [1] ^| CPU        ^| x264  ^| medium ^| best    ^| medium ^| best          ^|
+echo ^| [2] ^| CPU        ^| x265  ^| slow   ^| best    ^| small  ^| good          ^|
+echo ^| [3] ^| GPU Nvidia ^| h264  ^| fast   ^| better  ^| big    ^| better        ^|
+echo ^| [4] ^| GPU Nvidia ^| h265  ^| fast   ^| better  ^| medium ^| good          ^|
+echo ^| [5] ^| GPU Amd    ^| h264  ^| fast   ^| good    ^| big    ^| better        ^|
+echo ^| [6] ^| GPU Amd    ^| h265  ^| fast   ^| good    ^| medium ^| good          ^|
+echo ^| [7] ^| GPU Intel  ^| h264  ^| fast   ^| medium  ^| big    ^| better        ^|
+echo ^| [8] ^| GPU Intel  ^| h265  ^| medium ^| medium  ^| medium ^| good          ^|
+echo ^+-----+------------+-------+--------+---------+--------+---------------+
 
 if "!userCodec!"=="" (
-	set /p userCodec=^| Select number: 
+	set /p userCodec=Select number: 
 ) else (
-	echo ^| Select number: !userCodec! ^(from config^)
+	echo Select number: !userCodec!
 )
 
-echo " 1 2 3 4 5 6 7 8 9 " | find " !userCodec! " >nul
+if not "!userCodec!"=="!userCodec: =!" (
+	set "userCodec="
+    cls
+    goto :init
+)
+
+echo " 1 2 3 4 5 6 7 8 " | find " !userCodec! " >nul
 if errorlevel 1 (
+	set "userCodec="
     cls
     goto :init
 )
@@ -190,7 +207,7 @@ if not "!fileName!"=="!fileName:.archive=!" (
 )
 
 rem Detect audio & video streams
-echo Analyse !input!
+echo Convert !input!
 set "has_audio=0"
 set "has_video=0"
 
@@ -239,22 +256,18 @@ for /f "tokens=*" %%a in ('start "" /b /belownormal /wait ffprobe -v error -sele
 	if "%%a"=="10" set "pix_fmt=yuv420p10le"
 )
 
-rem Enable log for svt
-set SVT_LOG=1
-
 rem encode with cpu
 if "!userCodec!"=="1" set "query=-map 0:v -c:v libx264 -tag:v avc1 -crf 18 -preset placebo -x264-params ref=4:log-level=error"
 if "!userCodec!"=="2" set "query=-map 0:v -c:v libx265 -tag:v hvc1 -crf 23 -preset placebo -x265-params ref=4:log-level=error"
-if "!userCodec!"=="3" set "query=-map 0:v -c:v libsvtav1 -tag:v av01 -crf 28 -preset 2"
 rem encode with nvidia
-if "!userCodec!"=="4" set "query=-map 0:v -c:v h264_nvenc -tag:v avc1 -cq 18 -preset p7 -rc vbr"
-if "!userCodec!"=="5" set "query=-map 0:v -c:v hevc_nvenc -tag:v hvc1 -cq 23 -preset p7 -rc vbr"
+if "!userCodec!"=="3" set "query=-map 0:v -c:v h264_nvenc -tag:v avc1 -cq 18 -preset p7 -rc vbr"
+if "!userCodec!"=="4" set "query=-map 0:v -c:v hevc_nvenc -tag:v hvc1 -cq 23 -preset p7 -rc vbr"
 rem encode with amd
-if "!userCodec!"=="6" set "query=-map 0:v -c:v h264_amf -tag:v avc1 -rc cqp -cqp 18 -quality_best"
-if "!userCodec!"=="7" set "query=-map 0:v -c:v hevc_amf -tag:v hvc1 -rc cqp -cqp 23 -quality_best"
+if "!userCodec!"=="5" set "query=-map 0:v -c:v h264_amf -tag:v avc1 -rc cqp -cqp 18 -quality_best"
+if "!userCodec!"=="6" set "query=-map 0:v -c:v hevc_amf -tag:v hvc1 -rc cqp -cqp 23 -quality_best"
 rem encode with intel
-if "!userCodec!"=="8" set "query=-map 0:v -c:v h264_qsv -tag:v avc1 -global_quality 18 -preset 1 -look_ahead 1"
-if "!userCodec!"=="9" set "query=-map 0:v -c:v hevc_qsv -tag:v hvc1 -global_quality 23 -preset 1 -look_ahead 1"
+if "!userCodec!"=="7" set "query=-map 0:v -c:v h264_qsv -tag:v avc1 -global_quality 18 -preset 1 -look_ahead 1"
+if "!userCodec!"=="8" set "query=-map 0:v -c:v hevc_qsv -tag:v hvc1 -global_quality 23 -preset 1 -look_ahead 1"
 
 rem finish query
 set "query=!query! -fps_mode cfr -g 60 -map 0:a? -c:a aac -tag:a mp4a -b:a 192k -pix_fmt !pix_fmt! -movflags +faststart"
