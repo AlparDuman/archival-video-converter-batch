@@ -9,12 +9,12 @@ rem ==========[ Config ]==========
 
 rem Override userDelete variable and skip input
 rem "userDeletion=" Ask for user input
-rem "userDeletion=2" Skip user input and pretend user input us 2
+rem "userDeletion=2" Skip user input and pretend user input is 2
 set "userDeletion="
 
 rem Override userCodec variable and skip input
 rem "userCodec=" Ask for user input
-rem "userCodec=4" Skip user input and pretend user input us 4
+rem "userCodec=4" Skip user input and pretend user input is 4
 set "userCodec="
 
 rem =======[ Config Check ]=======
@@ -322,3 +322,4 @@ if "!userDeletion!"=="2" (
 )
 
 exit /b 0
+
