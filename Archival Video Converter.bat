@@ -12,6 +12,13 @@ rem "userDeletion=" Ask for user input
 rem "userDeletion=2" Skip user input and pretend user input is 2
 set "userDeletion="
 
+rem Video rotation
+rem 0 = 0deg
+rem 1 = 90deg
+rem 2 = 180deg
+rem 3 = 270deg
+set "rotation="
+
 rem Override userCodec variable and skip input
 rem "userCodec=" Ask for user input
 rem "userCodec=4" Skip user input and pretend user input is 4
@@ -28,6 +35,19 @@ if not "!userDeletion!"=="" if not "!userDeletion!"=="!userDeletion: =!" (
 echo "  1 2 " | find " !userDeletion! " >nul
 if errorlevel 1 (
     echo Invalid preset for userDeletion!
+	timeout /t 999
+	exit 1
+)
+
+if not "!rotation!"=="" if not "!rotation!"=="!rotation: =!" (
+    echo Invalid preset for rotation!
+	timeout /t 999
+	exit 1
+)
+
+echo "  1 2 3 4 " | find " !rotation! " >nul
+if errorlevel 1 (
+    echo Invalid preset for rotation!
 	timeout /t 999
 	exit 1
 )
@@ -66,7 +86,7 @@ rem	along with archival-video-converter-batch. If not, see
 rem	<https://github.com/AlparDuman/archival-video-converter-batch/blob/main/LICENSE>
 rem	else <https://www.gnu.org/licenses/>.
 
-set "version=v1.2"
+set "version=v1.3"
 set "url=https://github.com/AlparDuman/archival-video-converter-batch"
 
 :init
@@ -128,6 +148,38 @@ if errorlevel 1 (
     cls
     goto :init
 )
+
+rem Ask user if video should be rotated
+echo By how many degrees should the video be rotated clockwise:
+echo [1] 0deg
+echo [2] 90deg
+echo [3] 180deg
+echo [4] 270deg
+
+if "!rotation!"=="" (
+	set /p rotation=Select number: 
+) else (
+	echo Select number: !rotation!
+)
+echo.
+
+if not "!rotation!"=="!rotation: =!" (
+	set "rotation="
+    cls
+    goto :init
+)
+
+echo " 1 2 3 4 " | find " !rotation! " >nul
+if errorlevel 1 (
+	set "rotation="
+    cls
+    goto :init
+)
+
+if "!rotation!"=="1" set "rotation="
+if "!rotation!"=="2" set "rotation=-vf "transpose=1" "
+if "!rotation!"=="3" set "rotation=-vf "transpose=1,transpose=1" "
+if "!rotation!"=="4" set "rotation=-vf "transpose=2" "
 
 rem Ask user video codec
 echo Choose a supported video codec:
@@ -282,7 +334,7 @@ if "!userCodec!"=="7" set "query=-map 0:v -c:v h264_qsv -tag:v avc1 -global_qual
 if "!userCodec!"=="8" set "query=-map 0:v -c:v hevc_qsv -tag:v hvc1 -global_quality 23 -preset 1 -look_ahead 1"
 
 rem finish query
-set "query=!query! -fps_mode cfr -g 60 -map 0:a? -c:a aac -tag:a mp4a -b:a 192k -pix_fmt !pix_fmt! -movflags +faststart"
+set "query=!rotation!!query! -fps_mode cfr -g 60 -map 0:a? -c:a aac -tag:a mp4a -b:a 192k -pix_fmt !pix_fmt! -movflags +faststart"
 set "query=-metadata comment="!version! !url! !query!" !query!"
 
 rem do encoding
@@ -322,4 +374,3 @@ if "!userDeletion!"=="2" (
 )
 
 exit /b 0
-
