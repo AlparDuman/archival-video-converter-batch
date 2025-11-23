@@ -225,6 +225,7 @@ for %%F in (%*) do (
 )
 
 rem Finished
+endlocal
 timeout /t 999
 exit 0
 
@@ -374,3 +375,4 @@ if "!userDeletion!"=="2" (
 )
 
 exit /b 0
+
